@@ -203,10 +203,10 @@ def toggle_block():
 
 @app.route('/api/check_license', methods=['POST'])
 def check_license():
-    data = request.json or {}
-    key = data.get('license_key')
+data = request.json or {}
+key = data.get('license_key')
 
-    if not key:
+if not key:
     return jsonify({"valid": False, "reason": "Ключ не предоставлен"}), 400
 
 conn = sqlite3.connect(DB_NAME)
