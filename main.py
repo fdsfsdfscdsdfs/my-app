@@ -203,36 +203,36 @@ def toggle_block():
 
 @app.route('/api/check_license', methods=['POST'])
 def check_license():
-    data = request.json or {}
-    key = data.get('license_key')
+data = request.json or {}
+key = data.get('license_key')
 
-    if not key:
-        return jsonify({"valid": False, "reason": "Ключ не предоставлен"}), 400
+if not key:
+    return jsonify({"valid": False, "reason": "Ключ не предоставлен"}), 400
 
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
-    cursor.execute("SELECT expires_at, is_blocked FROM licenses WHERE license_key = ?", (key,))
-    row = cursor.fetchone()
-    conn.close()
+conn = sqlite3.connect(DB_NAME)
+cursor = conn.cursor()
+cursor.execute("SELECT expires_at, is_blocked FROM licenses WHERE license_key = ?", (key,))
+row = cursor.fetchone()
+conn.close()
 
-    if not row:
-        return jsonify({"valid": False, "reason": "Неверный ключ подписки"}), 404
+if not row:
+    return jsonify({"valid": False, "reason": "Неверный ключ подписки"}), 404
 
-    expires_at = datetime.datetime.fromisoformat(row[0])
-    is_blocked = bool(row[1])
-    now = datetime.datetime.utcnow()
+expires_at = datetime.datetime.fromisoformat(row[0])
+is_blocked = bool(row[1])
+now = datetime.datetime.utcnow()
 
-    if is_blocked:
-        return jsonify({"valid": False, "reason": "Доступ заблокирован администратором"}), 403
+if is_blocked:
+    return jsonify({"valid": False, "reason": "Доступ заблокирован администратором"}), 403
 
-    if now > expires_at:
-        return jsonify({"valid": False, "reason": "Срок действия подписки истёк"}), 403
+if now > expires_at:
+    return jsonify({"valid": False, "reason": "Срок действия подписки истёк"}), 403
 
-    time_left = int((expires_at - now).total_seconds())
-    return jsonify({
-        "valid": True,
-        "seconds_left": time_left,
-        "expires_at": row({[0]})
-    
+time_left = int((expires_at - now).total_seconds())
+return jsonify({
+    "valid": True,
+    "seconds_left": time_left,
+    "expires_at": row[0]
+})
 
 
