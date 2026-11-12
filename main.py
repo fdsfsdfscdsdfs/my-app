@@ -232,8 +232,7 @@ def check_license():
     return jsonify({
         "valid": True,
         "seconds_left": time_left,
-        "expires_at": row[0]
-    })
+        "expires_at": row({[0]})
     
 
 
