@@ -229,10 +229,7 @@ def check_license():
         return jsonify({"valid": False, "reason": "Срок действия подписки истёк"}), 403
 
     time_left = int((expires_at - now).total_seconds())
-    return jsonify({
-        "valid": True,
-        "seconds_left": time_left,})
-        "expires_at": row[0]
+    return jsonify({     "valid": True,    "seconds_left": time_left,})    "expires_at": row[0]
     
 
 
