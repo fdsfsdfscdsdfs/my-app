@@ -231,7 +231,7 @@ def check_license():
     time_left = int((expires_at - now).total_seconds())
     return jsonify({
         "valid": True,
-        "seconds_left": time_left,
+        "seconds_left": time_left,})
         "expires_at": row[0]
     
 
