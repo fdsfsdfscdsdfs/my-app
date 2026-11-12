@@ -233,6 +233,6 @@ def check_license():
         "valid": True,
         "seconds_left": time_left,
         "expires_at": row[0]
-    })
+    
 
 
